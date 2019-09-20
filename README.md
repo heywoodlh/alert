@@ -3,6 +3,15 @@
 Alert is a simple tool for tailing a file (or multiple files) and then sending an alert when content is appended to the file.
 
 
+## Installation:
+
+Clone this repository, and install the dependencies:
+
+```
+git clone https://github.com/heywoodlh/alert && cd alert && pip3 install --user requirements.txt
+```
+
+
 ## Configuration:
 
 For the alerts that require additional configuration, alerts will look at `~/.alert.yml` for configuration. Refer to the individual alert documentation for how to configure this file.

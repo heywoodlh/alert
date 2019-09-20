@@ -1,0 +1,11 @@
+[Unit]
+Description=alert service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/bin/alert.py --config /etc/alert/alert.yml --type slack --path /var/log/mylog.log
+
+[Install]
+WantedBy=multi-user.target

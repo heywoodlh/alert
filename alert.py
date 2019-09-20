@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(description="Python alerting utility")
 ## Backup subparser
 parser.add_argument('-c', '--config', help='path to config file', metavar='PATH', nargs='+', default=alert_config)
 parser.add_argument('-p', '--path', help='path(s) to tail', metavar='PATH', nargs='+', default='', required=True)
-parser.add_argument('-t', '--type', help='alert type', metavar='REMOTE PATH', default='stdout')
+parser.add_argument('-t', '--type', help='alert type', metavar='TYPE', default='stdout')
 parser.add_argument('--title', help='alert title', metavar='TITLE', default='alert-py', type=str)
 
 args = parser.parse_args()
@@ -43,7 +43,19 @@ def load_yaml_slack(path):
     with open(path) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         global slackToken, slackChannel
-        slackToken = data.get('slack', ()).get('legacy_token')
+        try:
+            slackToken = data.get('slack', ()).get('legacy_token')
+            if slackToken == None:
+                raise Error
+        except:
+            try:
+                slackTokenCommand = data.get('slack', ()).get('legacy_token_command')
+                result = subprocess.run(slackTokenCommand, shell=True, stdout=subprocess.PIPE)
+                slackToken = result.stdout.decode('utf-8')
+                slackToken = slackToken.strip()
+            except:
+                print('Unable to retrieve Slack token. Exiting.')
+                sys.exit(1)
         slackChannel = data.get('slack', ()).get('channel_name')
         slackChannel = '#' + str(slackChannel)
 
