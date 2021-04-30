@@ -2,7 +2,7 @@ certifi==2019.9.11
 chardet==3.0.4
 idna==2.8
 pygtail==0.11.0
-PyYAML==5.1.2
+PyYAML==5.4
 requests==2.22.0
 slacker==0.13.0
 urllib3==1.25.5
